@@ -18,6 +18,11 @@ Enemy.prototype.update = function(dt) {
         this.x = this.x + this.speed*dt;
     // which will ensure the game runs at the same speed for
     // all computers.
+//check for collision. If collided return to starting point
+    if (((this.y > player.y) && (this.y < player.y+30)) && ((this.x > player.x - 60) && (this.x < player.x + 50))){
+        player.x = 200;
+        player.y = 380;
+    }
     if(this.x >= 505){
         this.x = 0;
     }
@@ -33,25 +38,27 @@ Enemy.prototype.render = function() {
         this.x = x;
         this.y = y;
         this.speed = speed;
-        this.sprite = 'images/char-boy.png';
+        this.sprite = 'images/char-cat-girl.png';
     };
 // This class requires an update(), render() and
-    Player.prototype.update = function(dt){
-        if (this.y+30 <= 0){
-             player.x = 200;
-             player.y = 400;
-        }
-        if (this.y > 405){
-            this.y = 405;
-        }
-        if (this.x < 0){
-            this.x = 0;
-        }
-        if (this.x > 400){
-            this.x = 400;
-        }
+ Player.prototype.update = function(dt){
+    if (this.y <= 0){
+        player.x = 200;
+        player.y = 380;     // return to the initial position when reached the final row
+        score+=1;           //increase the score and level by 1
+        level+=1;
+    }
+    if (this.y > 375){
+        this.y = 375;
+    }
+    if (this.x < 0){
+        this.x = 0;
+    }
+    if (this.x > 400){
+        this.x = 400;
+    }
 
-    };
+};
     Player.prototype.render = function(){
         ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     };
@@ -64,31 +71,28 @@ Enemy.prototype.render = function() {
             this.x += 100;
         }
         if(keyPress == 'up'){
-            this.y -= 85;
+            this.y -= 83;
         }
         if(keyPress == 'down'){
-            this.y += 85;
+            this.y += 83;
         }
     };
+//display score and level
+var scoreLevel = function(score, level){
+    $(".runs").append("Score:" + score +"/" + "level:" + level)
+}
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
-    var enemy1 = new Enemy(00, 65, 50);
-    var enemy2 = new Enemy(0, 145, 60);
-    var enemy3 = new Enemy(0, 225, 110);
-
-
-    var allEnemies = [enemy1, enemy2, enemy3];
+    var allEnemies = [new Enemy(0, 60, 100), new Enemy(0, 145, 50), new Enemy(0, 230, 50)];
 
 // Place the player object in a variable called player
-
-
-
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 //input
-    var player = new Player(200, 405, 50);
-
+    var player = new Player(200, 380, 50);
+    var score=0;
+    var level=1;
 
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
