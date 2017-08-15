@@ -18,6 +18,9 @@ Enemy.prototype.update = function(dt) {
         this.x = this.x + this.speed*dt;
     // which will ensure the game runs at the same speed for
     // all computers.
+    if(this.x >= 505){
+        this.x = 0;
+    }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -34,6 +37,19 @@ Enemy.prototype.render = function() {
     };
 // This class requires an update(), render() and
     Player.prototype.update = function(dt){
+        if (this.y+30 <= 0){
+             player.x = 200;
+             player.y = 400;
+        }
+        if (this.y > 405){
+            this.y = 405;
+        }
+        if (this.x < 0){
+            this.x = 0;
+        }
+        if (this.x > 400){
+            this.x = 400;
+        }
 
     };
     Player.prototype.render = function(){
@@ -57,7 +73,7 @@ Enemy.prototype.render = function() {
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
-    var enemy1 = new Enemy(0, 65, 50);
+    var enemy1 = new Enemy(00, 65, 50);
     var enemy2 = new Enemy(0, 145, 60);
     var enemy3 = new Enemy(0, 225, 110);
 
@@ -71,7 +87,7 @@ Enemy.prototype.render = function() {
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 //input
-    var player = new Player(200, 400, 50);
+    var player = new Player(200, 405, 50);
 
 
 document.addEventListener('keyup', function(e) {
